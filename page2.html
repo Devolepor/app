@@ -2,93 +2,142 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>الحضور والغياب</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@500&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       font-family: 'Cairo', sans-serif;
-      background: linear-gradient(to right, #ffffff, #ffffff);
+      background: #f5f5f5;
       margin: 0;
       padding: 0;
+      line-height: 1.6;
     }
 
     header {
       background-color: #3c5c81;
       color: white;
-      padding: 10px 20px;
+      padding: 15px 20px;
       text-align: center;
-      font-size: 21px;
       position: relative;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
+    
     header h1 {
-        font-size: 16px;
+      margin: 0;
+      font-size: 1.2rem;
+      font-weight: 600;
     }
+    
     .back-btn {
       position: absolute;
       left: 10px;
-      width: 80px;
-      height: 20px;
-      font-size: 12px;
       top: 50%;
       transform: translateY(-50%);
       background-color: white;
-      color: #4a90e2;
+      color: #3c5c81;
       border: none;
-      padding: 6px 12px;
-      border-radius: 6px;
+      padding: 5px 10px;
+      border-radius: 5px;
       cursor: pointer;
       text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .container {
-      max-width: 700px;
-      margin: 30px auto;
+      width: 95%;
+      max-width: 500px;
+      margin: 20px auto;
       background-color: white;
-      padding: 30px 20px;
-      border-radius: 16px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     .student-name {
       text-align: center;
-      font-size: 24px;
-      margin-bottom: 30px;
+      font-size: 1.3rem;
+      margin-bottom: 20px;
       color: #3c5c81;
+      font-weight: 600;
+      padding: 0 10px;
     }
 
     .day-card {
       background-color: #fdfdfd;
-      border: 1px solid #ddd;
-      border-radius: 12px;
-      padding: 15px 20px;
-      margin-bottom: 15px;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      padding: 12px 15px;
+      margin-bottom: 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-      transition: transform 0.2s ease;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      transition: all 0.2s ease;
     }
 
     .day-card:hover {
-      transform: scale(1.02);
+      transform: translateY(-2px);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.1);
     }
 
     .status {
       font-weight: bold;
-      font-size: 18px;
+      font-size: 0.95rem;
     }
 
     .present {
-      color: green;
+      color: #2e7d32;
     }
 
     .absent {
-      color: red;
+      color: #c62828;
     }
 
     .no-status {
-      color: gray;
+      color: #757575;
+    }
+
+    /* رسالة عندما لا توجد بيانات */
+    .no-data {
+      text-align: center;
+      color: #757575;
+      padding: 20px;
+      font-size: 1rem;
+    }
+
+    /* تحسينات للشاشات الصغيرة جدًا */
+    @media (max-width: 400px) {
+      header h1 {
+        font-size: 1rem;
+        padding: 0 30px;
+      }
+      
+      .back-btn {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+      }
+      
+      .student-name {
+        font-size: 1.1rem;
+      }
+      
+      .day-card {
+        padding: 10px 12px;
+      }
+      
+      .status {
+        font-size: 0.85rem;
+      }
     }
   </style>
 </head>
@@ -96,7 +145,7 @@
 
   <header>
     <h1>الحضور والغياب</h1>
-    <a class="back-btn" href="home.html">الرجوع</a>
+    <a class="back-btn" href="home.html">← الرجوع</a>
   </header>
 
   <div class="container">
@@ -111,15 +160,41 @@
     const studentNameEl = document.getElementById("studentName");
     const attendanceList = document.getElementById("attendanceList");
 
+    // بيانات تجريبية للعرض (يمكن حذفها عند استخدام JSON الحقيقي)
+    const demoData = {
+      "1": {
+        "name": "أحمد محمد",
+        "attendance": {
+          "الأحد ١٠/٠٥": "حاضر",
+          "الاثنين ١١/٠٥": "غائب",
+          "الثلاثاء ١٢/٠٥": "حاضر",
+          "الأربعاء ١٣/٠٥": "حاضر",
+          "الخميس ١٤/٠٥": "غائب"
+        }
+      }
+    };
+
+    // استخدم هذا الكود عند وجود ملف JSON الحقيقي
+    /*
     fetch("students.json")
       .then(response => response.json())
       .then(students => {
-        const student = students[studentId];
+        displayStudentData(students);
+      })
+      .catch(error => {
+        handleError(error);
+      });
+    */
+    
+    // عرض البيانات (استخدم هذا مع البيانات الحقيقية أو التجريبية)
+    function displayStudentData(students) {
+      const student = students[studentId];
 
-        if (student) {
-          studentNameEl.textContent = student.name;
+      if (student) {
+        studentNameEl.textContent = student.name;
 
-          for (const [day, status] of Object.entries(student.attendance || {})) {
+        if (student.attendance && Object.keys(student.attendance).length > 0) {
+          for (const [day, status] of Object.entries(student.attendance)) {
             const card = document.createElement("div");
             card.className = "day-card";
 
@@ -145,13 +220,23 @@
             attendanceList.appendChild(card);
           }
         } else {
-          studentNameEl.textContent = "بيانات الطالب غير موجودة.";
+          attendanceList.innerHTML = '<div class="no-data">لا توجد بيانات حضور لهذا الطالب</div>';
         }
-      })
-      .catch(error => {
-        studentNameEl.textContent = "خطأ أثناء تحميل البيانات.";
-        console.error("فشل تحميل students.json:", error);
-      });
+      } else {
+        studentNameEl.textContent = "بيانات الطالب غير موجودة.";
+        attendanceList.innerHTML = '<div class="no-data">الطالب غير مسجل في النظام</div>';
+      }
+    }
+    
+    // معالجة الأخطاء
+    function handleError(error) {
+      studentNameEl.textContent = "حدث خطأ أثناء تحميل البيانات";
+      attendanceList.innerHTML = '<div class="no-data">تعذر تحميل بيانات الحضور. يرجى المحاولة لاحقاً</div>';
+      console.error("فشل تحميل البيانات:", error);
+    }
+    
+    // لعرض البيانات التجريبية (احذف هذا عند استخدام البيانات الحقيقية)
+    displayStudentData(demoData);
   </script>
 
 </body>
