@@ -1,116 +1,227 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>واجهة التحقق</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700&display=swap');
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
     body {
+      font-family: 'Cairo', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+      height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      margin: 0;
-      font-family: 'Cairo', sans-serif;
-      background: linear-gradient(to right, #fffaf0, #fde5b3);
+      padding: 20px;
     }
-    .speech-bubble {
-      width: 340px;
-      margin-bottom: 20px;
-      border-radius: 20px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-    .text {
-      font-size: 24px;
-      color: #5a3921;
-      margin-bottom: 16px;
+    
+    .auth-container {
+      width: 100%;
+      max-width: 400px;
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      padding: 30px;
       text-align: center;
-      font-weight: bold;
+      animation: fadeIn 0.5s ease;
     }
-    .code-input {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-      align-items: center;
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
-    .code-input input {
-      width: 230px;
-      height: 20px;
-      margin: 4px;
-      font-size: 16px;
-      text-align: center;
-      border: 1.5px solid #c59d5f;
+    
+    .logo {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid #3c5c81;
+      box-shadow: 0 4px 12px rgba(60, 92, 129, 0.2);
+    }
+    
+    .title {
+      color: #3c5c81;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      font-weight: 700;
+    }
+    
+    .subtitle {
+      color: #666;
+      font-size: 1rem;
+      margin-bottom: 30px;
+    }
+    
+    .input-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+    
+    .input-field {
+      width: 100%;
+      padding: 15px 20px;
+      font-size: 1rem;
+      border: 2px solid #e0e0e0;
       border-radius: 10px;
       outline: none;
-      padding: 8px;
-      background-color: #fff;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-    .button {
-      padding: 12px 25px;
-      font-size: 16px;
-      color: #fff;
-      background-color: #d4a82c;
-      border: none;
-      border-radius: 25px;
-      cursor: pointer;
-      width: 200px;
+      transition: all 0.3s ease;
       text-align: center;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+      letter-spacing: 2px;
     }
-    .button:hover {
-      background-color: #f3bc42;
+    
+    .input-field:focus {
+      border-color: #3c5c81;
+      box-shadow: 0 0 0 3px rgba(60, 92, 129, 0.2);
+    }
+    
+    .submit-btn {
+      width: 100%;
+      padding: 15px;
+      font-size: 1rem;
+      font-weight: 600;
+      color: white;
+      background-color: #3c5c81;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(60, 92, 129, 0.3);
+    }
+    
+    .submit-btn:hover {
+      background-color: #2c4a6e;
       transform: translateY(-2px);
+      box-shadow: 0 6px 12px rgba(60, 92, 129, 0.4);
+    }
+    
+    .submit-btn:active {
+      transform: translateY(0);
+    }
+    
+    .error-message {
+      color: #c62828;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      display: none;
+    }
+    
+    .footer-text {
+      margin-top: 20px;
+      color: #888;
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 480px) {
+      .auth-container {
+        padding: 20px;
+      }
+      
+      .logo {
+        width: 100px;
+        height: 100px;
+      }
+      
+      .title {
+        font-size: 1.3rem;
+      }
     }
   </style>
+</head>
+<body>
+
+  <div class="auth-container">
+    <img src="https://cdn-icons-png.flaticon.com/512/3713/3713545.png" alt="شعار المدرسة" class="logo">
+    <h1 class="title">نظام المتابعة المدرسية</h1>
+    <p class="subtitle">الرجاء إدخال الكود الخاص بك</p>
+    
+    <div class="input-group">
+      <input type="text" id="codeInput" class="input-field" placeholder="أدخل الكود المكون من 6 أرقام" maxlength="6" pattern="\d*" inputmode="numeric">
+      <div class="error-message" id="errorMessage">الكود غير صحيح! الرجاء المحاولة مرة أخرى.</div>
+    </div>
+    
+    <button class="submit-btn" onclick="verifyCode()">تسجيل الدخول</button>
+    <p class="footer-text">للمساعدة، يرجى التواصل مع الإدارة</p>
+  </div>
 
   <script>
+    // التحقق من وجود بيانات طالب مسجل مسبقاً
     const existingStudent = localStorage.getItem('studentData');
     if (existingStudent) {
       window.location.href = 'home.html';
     }
-  </script>
-</head>
-<body>
 
-  <img src="https://media.istockphoto.com/id/1446793318/photo/cartoon-style-book-3d-rendering.jpg?s=612x612&w=0&k=20&c=FTbsUZrkYjIgbp3xrEh4wo3n-KaFD0nhQauo2dcFOYo=" alt="فقاعة الكلام" class="speech-bubble">
-  <div class="text">ادخل الكود</div>
+    // تحميل بيانات الطلاب
+    let students = {};
+    
+    fetch('students.json')
+      .then(response => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
+      .then(data => {
+        students = data;
+      })
+      .catch(error => {
+        console.error('Error loading students data:', error);
+        document.getElementById('errorMessage').textContent = 'حدث خطأ في تحميل البيانات. يرجى المحاولة لاحقاً.';
+        document.getElementById('errorMessage').style.display = 'block';
+      });
 
-  <div class="code-input">
-    <input type="text" placeholder="أدخل الكود" id="codeInput" maxlength="6">
-  </div>
-
-  <button class="button" onclick="verifyCode()">تسجيل</button>
-
- <script>
-  let students = {};
-
-  // تحميل البيانات من ملف JSON
-  fetch('students.json')
-    .then(response => response.json())
-    .then(data => {
-      students = data;
-    })
-    .catch(error => {
-      console.error('فشل تحميل ملف الطلاب:', error);
-    });
-
-  function verifyCode() {
-    const code = document.getElementById('codeInput').value.trim();
-    if (students[code]) {
-      const student = students[code];
-      localStorage.setItem('studentData', JSON.stringify(student));
-      localStorage.setItem('studentId', code);
-      window.location.href = 'home.html';
-    } else {
-      alert('الكود غير صحيح! الرجاء المحاولة مرة أخرى.');
+    function verifyCode() {
+      const codeInput = document.getElementById('codeInput');
+      const errorMessage = document.getElementById('errorMessage');
+      const code = codeInput.value.trim();
+      
+      // إخفاء رسالة الخطأ عند المحاولة
+      errorMessage.style.display = 'none';
+      
+      // التحقق من صحة المدخلات
+      if (!code || code.length !== 6 || !/^\d+$/.test(code)) {
+        codeInput.style.borderColor = '#c62828';
+        errorMessage.textContent = 'الكود يجب أن يتكون من 6 أرقام فقط';
+        errorMessage.style.display = 'block';
+        return;
+      }
+      
+      // التحقق من وجود الطالب
+      if (students[code]) {
+        const student = students[code];
+        
+        // حفظ بيانات الطالب
+        localStorage.setItem('studentData', JSON.stringify(student));
+        localStorage.setItem('studentId', code);
+        
+        // إضافة تأثير قبل الانتقال
+        document.querySelector('.auth-container').style.animation = 'fadeIn 0.5s ease reverse';
+        setTimeout(() => {
+          window.location.href = 'home.html';
+        }, 300);
+      } else {
+        codeInput.style.borderColor = '#c62828';
+        errorMessage.style.display = 'block';
+        codeInput.value = '';
+        codeInput.focus();
+      }
     }
-  }
-</script>
+    
+    // تفعيل الزر عند الضغط على Enter
+    document.getElementById('codeInput').addEventListener('keypress', function(e) {
+      if (e.key === 'Enter') {
+        verifyCode();
+      }
+    });
+  </script>
 
 </body>
 </html>
