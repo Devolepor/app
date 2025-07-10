@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تطبيق 764671</title>
+    <title>تطبيق المتابعة المدرسية</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -16,6 +16,8 @@
             --danger-color: #f72585;
             --warning-color: #f8961e;
             --info-color: #4895ef;
+            --text-primary: #2b2d42;
+            --text-secondary: #6c757d;
         }
 
         .dark-mode {
@@ -28,6 +30,8 @@
             --danger-color: #7209b7;
             --warning-color: #b5179e;
             --info-color: #4895ef;
+            --text-primary: #f8f9fa;
+            --text-secondary: #adb5bd;
         }
 
         body {
@@ -35,7 +39,7 @@
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             margin: 0;
             padding: 0;
-            color: var(--dark-color);
+            color: var(--text-primary);
             transition: all 0.3s ease;
             min-height: 100vh;
         }
@@ -71,33 +75,50 @@
             background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
         }
 
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: var(--primary-color);
-            font-size: 2rem;
-            font-weight: 700;
-            position: relative;
-            padding-bottom: 10px;
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
         }
 
-        h1::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 25%;
-            width: 50%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
-            border-radius: 3px;
+        .dark-mode .header {
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .profile-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            margin-left: 15px;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--primary-color);
+        }
+
+        .user-grade {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 5px 0 0;
         }
 
         h2 {
             color: var(--primary-color);
-            border-bottom: 2px solid var(--accent-color);
-            padding-bottom: 10px;
+            border-right: 4px solid var(--accent-color);
+            padding-right: 15px;
             font-size: 1.5rem;
-            margin-top: 30px;
+            margin: 30px 0 20px;
         }
 
         .btn {
@@ -175,7 +196,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 15px 20px;
-            margin: 12px 0;
+            margin: 20px 0;
             background-color: var(--light-color);
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -365,6 +386,8 @@
             text-decoration: none;
             font-size: 12px;
             transition: all 0.3s;
+            padding: 5px 10px;
+            border-radius: 10px;
         }
 
         .nav-item i {
@@ -372,6 +395,10 @@
             margin-bottom: 5px;
             color: var(--primary-color);
             transition: all 0.3s;
+        }
+
+        .nav-item.active {
+            background-color: rgba(67, 97, 238, 0.1);
         }
 
         .nav-item.active i,
@@ -385,6 +412,47 @@
             color: var(--accent-color);
         }
 
+        /* Stats Cards */
+        .stats-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .stat-card {
+            background-color: var(--light-color);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 5px 0;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .attendance-stat {
+            border-top: 4px solid var(--success-color);
+        }
+
+        .absence-stat {
+            border-top: 4px solid var(--danger-color);
+        }
+
         /* Responsive */
         @media (max-width: 480px) {
             .container {
@@ -394,13 +462,22 @@
                 border-radius: 15px;
             }
             
-            h1 {
-                font-size: 1.8rem;
+            .profile-img {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .user-name {
+                font-size: 1.1rem;
             }
             
             .modal-content {
                 width: 90%;
                 margin: 20% auto;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -408,10 +485,27 @@
 </head>
 <body>
     <div class="container">
-               <div><strong id="studentGrade"></strong></div>
+        <div class="header">
+            <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة الطالب" class="profile-img" id="studentImage">
+            <div class="user-info">
+                <h3 class="user-name" id="studentName">جارٍ التحميل...</h3>
+                <p class="user-grade" id="studentGrade">الصف: جارٍ التحميل...</p>
+            </div>
+        </div>
 
-        
-        <h2>عن التطبيق</h2>
+        <!-- إحصاءات سريعة -->
+        <div class="stats-container">
+            <div class="stat-card attendance-stat">
+                <div class="stat-value" id="attendanceStat">0</div>
+                <div class="stat-label">أيام الحضور</div>
+            </div>
+            <div class="stat-card absence-stat">
+                <div class="stat-value" id="absenceStat">0</div>
+                <div class="stat-label">أيام الغياب</div>
+            </div>
+        </div>
+
+        <h2>الإعدادات</h2>
         
         <button class="btn" id="developerBtn">
             <span>معلومات المطور</span>
@@ -431,15 +525,16 @@
             </label>
         </div>
         
-       <button class="btn" onclick="window.location.href='user.html'">
-            <span>معلومات لاطالب </span>
+        <button class="btn" onclick="window.location.href='user.html'">
+            <span>معلومات الطالب</span>
             <i class="fas fa-user"></i>
         </button>
         
+        <h2>الحساب</h2>
         
         <button class="btn" id="anotherCodeBtn">
-            <span>الدخول بكود آخر</span>
-            <i class="fas fa-key"></i>
+            <span>تغيير الحساب</span>
+            <i class="fas fa-exchange-alt"></i>
         </button>
         
         <button class="btn" id="logoutBtn">
@@ -455,8 +550,9 @@
             <img src="photo_2025-06-16_00-57-23.jpg" alt="صورة المطور" class="developer-img">
             <h2>معلومات المطور</h2>
             <p><strong><i class="fas fa-user"></i> الاسم:</strong> Mahmoud Mohamed</p>
-            <p><strong><i class="fas fa-phone"></i> رقم الهاتف:</strong><a href="tel:+201123961290">01123961290</a></p>
-            <p><strong><i class="fas fa-info-circle"></i> معلومات إضافية:</strong>I'm Front-end developor and app developor </p>
+            <p><strong><i class="fas fa-phone"></i> رقم الهاتف:</strong> <a href="tel:+201123961290">01123961290</a></p>
+            <p><strong><i class="fas fa-envelope"></i> البريد الإلكتروني:</strong> <a href="mailto:dev@example.com">dev@example.com</a></p>
+            <p><strong><i class="fas fa-info-circle"></i> معلومات إضافية:</strong> I'm Front-end developer and app developer</p>
         </div>
     </div>
 
@@ -492,15 +588,15 @@
             <span>الرئيسية</span>
         </a>
         <a href="blog.html" class="nav-item">
-            <i class="fas fa-blog"></i>
-            <span>المدونه</span>
+            <i class="fas fa-book-open"></i>
+            <span>المحتوى</span>
         </a>
         <a href="user.html" class="nav-item">
-            <i class="fas fa-cog"></i>
-            <span>معلومات طالب</span>
+            <i class="fas fa-user"></i>
+            <span>الملف الشخصي</span>
         </a>
         <a href="start.html" class="nav-item">
-    <i class="fa fa-sign-out" style="color:red;" onclick="window.location.href='start.html'"></i>
+            <i class="fas fa-sign-out-alt"></i>
             <span>تسجيل الخروج</span>
         </a>
     </div>
@@ -519,34 +615,27 @@
             darkModeToggle.checked = true;
         }
 
-        // Developer Modal
-        const developerBtn = document.getElementById('developerBtn');
-        const developerModal = document.getElementById('developerModal');
-        const developerClose = developerModal.querySelector('.close');
+        // Modals functionality
+        const setupModal = (btnId, modalId) => {
+            const btn = document.getElementById(btnId);
+            const modal = document.getElementById(modalId);
+            const close = modal.querySelector('.close');
 
-        developerBtn.addEventListener('click', function() {
-            developerModal.style.display = 'block';
-        });
+            btn.addEventListener('click', () => modal.style.display = 'block');
+            close.addEventListener('click', () => modal.style.display = 'none');
+            
+            window.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+        };
 
-        developerClose.addEventListener('click', function() {
-            developerModal.style.display = 'none';
-        });
+        setupModal('developerBtn', 'developerModal');
+        setupModal('messageBtn', 'messageModal');
 
-        // Message Modal
-        const messageBtn = document.getElementById('messageBtn');
-        const messageModal = document.getElementById('messageModal');
-        const messageClose = messageModal.querySelector('.close');
-        const messageForm = document.getElementById('messageForm');
-
-        messageBtn.addEventListener('click', function() {
-            messageModal.style.display = 'block';
-        });
-
-        messageClose.addEventListener('click', function() {
-            messageModal.style.display = 'none';
-        });
-
-        messageForm.addEventListener('submit', function(e) {
+        // Message Form
+        document.getElementById('messageForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const name = document.getElementById('name').value;
@@ -556,30 +645,19 @@
             const whatsappUrl = `https://wa.me/201150929598?text=الاسم:%20${encodeURIComponent(name)}%0Aرقم%20الهاتف:%20${encodeURIComponent(phone)}%0Aالرسالة:%20${encodeURIComponent(message)}`;
             
             window.open(whatsappUrl, '_blank');
-            messageModal.style.display = 'none';
-            messageForm.reset();
+            document.getElementById('messageModal').style.display = 'none';
+            this.reset();
         });
 
-        // Another Code and Logout buttons
-        const anotherCodeBtn = document.getElementById('anotherCodeBtn');
-        const logoutBtn = document.getElementById('logoutBtn');
-
-        anotherCodeBtn.addEventListener('click', function() {
+        // Navigation buttons
+        document.getElementById('anotherCodeBtn').addEventListener('click', () => {
             window.location.href = 'code.html';
         });
 
-        logoutBtn.addEventListener('click', function() {
-            window.location.href = 'code.html';
-        });
-
-        // Close modals when clicking outside
-        window.addEventListener('click', function(event) {
-            if (event.target === developerModal) {
-                developerModal.style.display = 'none';
-            }
-            if (event.target === messageModal) {
-                messageModal.style.display = 'none';
-            }
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('studentData');
+            localStorage.removeItem('studentId');
+            window.location.href = 'start.html';
         });
 
         // Bottom navigation active state
@@ -590,18 +668,27 @@
                 this.classList.add('active');
             });
         });
-        // ===========================
-          // استرجاع بيانات الطالب من localStorage
-        const studentData = JSON.parse(localStorage.getItem('studentData'));
 
-        // التحقق من وجود بيانات الطالب
+        // Load student data
+        const studentData = JSON.parse(localStorage.getItem('studentData'));
         if (studentData) {
-            document.getElementById('studentName').textContent = studentData.name;
-            document.getElementById('studentGrade').textContent = ` ${studentData.grade}`;
-            document.getElementById('studentAge').textContent = `العمر: ${studentData.age}`;
-            document.getElementById('studentInfo').textContent = `معلومات إضافية: ${studentData.info}`;
+            document.getElementById('studentName').textContent = studentData.name || 'غير محدد';
+            document.getElementById('studentGrade').textContent = `الصف: ${studentData.grade || 'غير محدد'}`;
+            
+            if (studentData.image) {
+                document.getElementById('studentImage').src = studentData.image;
+            }
+            
+            // Calculate attendance stats if available
+            if (studentData.attendance) {
+                const attendanceData = Object.values(studentData.attendance);
+                const presentCount = attendanceData.filter(status => status === 'حاضر').length;
+                const absentCount = attendanceData.filter(status => status === 'غائب').length;
+                
+                document.getElementById('attendanceStat').textContent = presentCount;
+                document.getElementById('absenceStat').textContent = absentCount;
+            }
         } else {
-            // إعادة التوجيه إلى صفحة إدخال الكود إذا لم تكن هناك بيانات
             window.location.href = 'code.html';
         }
     </script>
