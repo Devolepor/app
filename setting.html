@@ -539,7 +539,7 @@
             <i class="fas fa-exchange-alt"></i>
         </button>
         
-        <button class="btn" id="anotherCodeBtn">
+        <button class="btn" id="logoutBtn">
             <span>تسجيل الخروج</span>
             <i class="fas fa-sign-out-alt"></i>
         </button>
@@ -657,7 +657,6 @@
         });
 
         document.getElementById('logoutBtn').addEventListener('click', () => {
-            localStorage.removeItem('studentData');
             localStorage.removeItem('studentId');
             window.location.href = 'start.html';
         });
@@ -671,33 +670,56 @@
             });
         });
 
-        // Load student data and calculate attendance stats
-        const studentData = JSON.parse(localStorage.getItem('studentData'));
-        if (studentData) {
-            document.getElementById('studentName').textContent = studentData.name || 'غير محدد';
-            
-            if (studentData.image) {
-                document.getElementById('studentImage').src = studentData.image;
-            }
-            
-            // Calculate and display attendance stats
-            if (studentData.attendance) {
-                let presentCount = 0;
-                let absentCount = 0;
+        // Load student data from students.json
+        async function loadStudentData() {
+            try {
+                // Get student ID from localStorage
+                const studentId = localStorage.getItem('studentId');
+                if (!studentId) {
+                    window.location.href = 'code.html';
+                    return;
+                }
+
+                // Fetch students data
+                const response = await fetch('students.json');
+                if (!response.ok) {
+                    throw new Error('Failed to load student data');
+                }
                 
-                // Count present and absent days
-                Object.values(studentData.attendance).forEach(status => {
-                    if (status === 'حاضر') presentCount++;
-                    if (status === 'غائب') absentCount++;
-                });
+                const studentsData = await response.json();
+                const studentData = studentsData[studentId];
                 
-                // Update the UI
-                document.getElementById('presentDays').textContent = presentCount;
-                document.getElementById('absentDays').textContent = absentCount;
+                if (!studentData) {
+                    window.location.href = 'code.html';
+                    return;
+                }
+
+                // Display student info
+                document.getElementById('studentName').textContent = studentData.name || 'غير محدد';
+                
+                // Calculate and display attendance stats
+                if (studentData.attendance) {
+                    let presentCount = 0;
+                    let absentCount = 0;
+                    
+                    // Count present and absent days
+                    Object.values(studentData.attendance).forEach(status => {
+                        if (status === 'حاضر') presentCount++;
+                        if (status === 'غائب') absentCount++;
+                    });
+                    
+                    // Update the UI
+                    document.getElementById('presentDays').textContent = presentCount;
+                    document.getElementById('absentDays').textContent = absentCount;
+                }
+            } catch (error) {
+                console.error('Error loading student data:', error);
+                window.location.href = 'code.html';
             }
-        } else {
-            window.location.href = 'code.html';
         }
+
+        // Load student data when page loads
+        document.addEventListener('DOMContentLoaded', loadStudentData);
     </script>
 </body>
 </html>
