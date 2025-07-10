@@ -156,87 +156,83 @@
   </div>
 
   <script>
-    const studentId = localStorage.getItem("studentId");
-    const studentNameEl = document.getElementById("studentName");
-    const attendanceList = document.getElementById("attendanceList");
+   const studentId = localStorage.getItem("studentId");
+const studentNameEl = document.getElementById("studentName");
+const attendanceList = document.getElementById("attendanceList");
 
-    // بيانات تجريبية للعرض (يمكن حذفها عند استخدام JSON الحقيقي)
-    const demoData = {
-      "1": {
-        "name": "أحمد محمد",
-        "attendance": {
-          "الأحد ١٠/٠٥": "حاضر",
-          "الاثنين ١١/٠٥": "غائب",
-          "الثلاثاء ١٢/٠٥": "حاضر",
-          "الأربعاء ١٣/٠٥": "حاضر",
-          "الخميس ١٤/٠٥": "غائب"
-        }
-      }
-    };
-
-    // استخدم هذا الكود عند وجود ملف JSON الحقيقي
-    /*
+// التحقق من وجود studentId
+if (!studentId) {
+    studentNameEl.textContent = "لم يتم تحديد طالب";
+    attendanceList.innerHTML = '<div class="no-data">الرجاء اختيار طالب أولاً</div>';
+} else {
+    // جلب البيانات من ملف JSON
     fetch("students.json")
-      .then(response => response.json())
-      .then(students => {
-        displayStudentData(students);
-      })
-      .catch(error => {
-        handleError(error);
-      });
-    */
-    
-    // عرض البيانات (استخدم هذا مع البيانات الحقيقية أو التجريبية)
-    function displayStudentData(students) {
-      const student = students[studentId];
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("فشل في جلب البيانات");
+            }
+            return response.json();
+        })
+        .then(students => {
+            displayStudentData(students);
+        })
+        .catch(error => {
+            handleError(error);
+        });
+}
 
-      if (student) {
+function displayStudentData(students) {
+    const student = students[studentId];
+
+    if (student) {
         studentNameEl.textContent = student.name;
 
         if (student.attendance && Object.keys(student.attendance).length > 0) {
-          for (const [day, status] of Object.entries(student.attendance)) {
-            const card = document.createElement("div");
-            card.className = "day-card";
+            // فرز التواريخ حسب الأحدث (إذا كانت تحتوي على تاريخ)
+            const sortedDays = Object.entries(student.attendance).sort((a, b) => {
+                // يمكن إضافة منطق الفرز هنا إذا كانت التواريخ قابلة للفرز
+                return 0;
+            });
 
-            const dayLabel = document.createElement("div");
-            dayLabel.textContent = day;
+            sortedDays.forEach(([day, status]) => {
+                const card = document.createElement("div");
+                card.className = "day-card";
 
-            const statusEl = document.createElement("div");
-            statusEl.className = "status";
+                const dayLabel = document.createElement("div");
+                dayLabel.textContent = day;
 
-            if (status === "حاضر") {
-              statusEl.textContent = "✔️ حاضر";
-              statusEl.classList.add("present");
-            } else if (status === "غائب") {
-              statusEl.textContent = "❌ غائب";
-              statusEl.classList.add("absent");
-            } else {
-              statusEl.textContent = "-";
-              statusEl.classList.add("no-status");
-            }
+                const statusEl = document.createElement("div");
+                statusEl.className = "status";
 
-            card.appendChild(dayLabel);
-            card.appendChild(statusEl);
-            attendanceList.appendChild(card);
-          }
+                if (status === "حاضر") {
+                    statusEl.textContent = "✔️ حاضر";
+                    statusEl.classList.add("present");
+                } else if (status === "غائب") {
+                    statusEl.textContent = "❌ غائب";
+                    statusEl.classList.add("absent");
+                } else {
+                    statusEl.textContent = "-";
+                    statusEl.classList.add("no-status");
+                }
+
+                card.appendChild(dayLabel);
+                card.appendChild(statusEl);
+                attendanceList.appendChild(card);
+            });
         } else {
-          attendanceList.innerHTML = '<div class="no-data">لا توجد بيانات حضور لهذا الطالب</div>';
+            attendanceList.innerHTML = '<div class="no-data">لا توجد بيانات حضور لهذا الطالب</div>';
         }
-      } else {
+    } else {
         studentNameEl.textContent = "بيانات الطالب غير موجودة.";
         attendanceList.innerHTML = '<div class="no-data">الطالب غير مسجل في النظام</div>';
-      }
     }
-    
-    // معالجة الأخطاء
-    function handleError(error) {
-      studentNameEl.textContent = "حدث خطأ أثناء تحميل البيانات";
-      attendanceList.innerHTML = '<div class="no-data">تعذر تحميل بيانات الحضور. يرجى المحاولة لاحقاً</div>';
-      console.error("فشل تحميل البيانات:", error);
-    }
-    
-    // لعرض البيانات التجريبية (احذف هذا عند استخدام البيانات الحقيقية)
-    displayStudentData(demoData);
+}
+
+function handleError(error) {
+    studentNameEl.textContent = "حدث خطأ أثناء تحميل البيانات";
+    attendanceList.innerHTML = '<div class="no-data">تعذر تحميل بيانات الحضور. يرجى المحاولة لاحقاً</div>';
+    console.error("فشل تحميل البيانات:", error);
+}
   </script>
 
 </body>
