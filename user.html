@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بطاقة الطالب</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -20,7 +20,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Tajawal', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
         body {
@@ -34,20 +34,17 @@
             max-width: 500px;
             margin: 0 auto;
             background-color: white;
-            min-height: 100vh;
+            height: 100vh;
             position: relative;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-            display: flex;
-            flex-direction: column;
         }
         
         .header {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            background-color: var(--primary-color);
             color: white;
             padding: 20px;
             text-align: center;
             position: relative;
-            padding-top: 40px;
         }
         
         .header h1 {
@@ -66,29 +63,20 @@
             top: 20px;
             color: white;
             font-size: 20px;
-            background: rgba(255,255,255,0.2);
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         
         .profile-img {
-            width: 100px;
-            height: 100px;
+            width: 80px;
+            height: 80px;
             border-radius: 50%;
             background-color: #ddd;
             margin: 10px auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 40px;
+            font-size: 30px;
             color: #777;
             overflow: hidden;
-            border: 3px solid white;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
         }
         
         .profile-img img {
@@ -97,38 +85,11 @@
             object-fit: cover;
         }
         
-        .student-info {
-            text-align: center;
-            margin-bottom: 10px;
-        }
-        
-        .student-name {
-            font-size: 20px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        
-        .student-grade {
-            font-size: 16px;
-            opacity: 0.9;
-        }
-        
-        .content {
-            flex: 1;
-            padding-bottom: 60px;
-            overflow-y: auto;
-        }
-        
         .section {
             padding: 15px 20px;
             border-bottom: 1px solid #eee;
             display: flex;
             align-items: center;
-            transition: all 0.3s;
-        }
-        
-        .section:active {
-            background-color: #f5f5f5;
         }
         
         .section:last-child {
@@ -179,7 +140,6 @@
             justify-content: space-around;
             padding: 10px 0;
             border-top: 1px solid #eee;
-            z-index: 10;
         }
         
         .footer-btn {
@@ -189,9 +149,6 @@
             color: #777;
             text-decoration: none;
             font-size: 12px;
-            padding: 5px 10px;
-            border-radius: 8px;
-            transition: all 0.3s;
         }
         
         .footer-btn i {
@@ -201,11 +158,6 @@
         
         .footer-btn.active {
             color: var(--primary-color);
-            background-color: rgba(67, 97, 238, 0.1);
-        }
-        
-        .footer-btn:active {
-            transform: scale(0.95);
         }
         
         .fee-container {
@@ -226,108 +178,14 @@
         .success-badge {
             background-color: #e6f7ee;
             color: #00a854;
-            padding: 5px 12px;
+            padding: 3px 10px;
             border-radius: 15px;
             font-size: 14px;
             display: inline-block;
-            font-weight: bold;
-        }
-        
-        .warning-badge {
-            background-color: #fff7e6;
-            color: #fa8c16;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 14px;
-            display: inline-block;
-            font-weight: bold;
-        }
-        
-        .danger-badge {
-            background-color: #fff1f0;
-            color: #f5222d;
-            padding: 5px 12px;
-            border-radius: 15px;
-            font-size: 14px;
-            display: inline-block;
-            font-weight: bold;
-        }
-        
-        .loading {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 100;
-            display: none;
-        }
-        
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid var(--primary-color);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        /* Animation for sections */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .section {
-            animation: fadeInUp 0.5s ease forwards;
-            opacity: 0;
-        }
-        
-        .section:nth-child(1) { animation-delay: 0.1s; }
-        .section:nth-child(2) { animation-delay: 0.2s; }
-        .section:nth-child(3) { animation-delay: 0.3s; }
-        .section:nth-child(4) { animation-delay: 0.4s; }
-        .section:nth-child(5) { animation-delay: 0.5s; }
-        
-        /* Responsive adjustments */
-        @media (max-width: 400px) {
-            .profile-img {
-                width: 80px;
-                height: 80px;
-                font-size: 30px;
-            }
-            
-            .header {
-                padding-top: 30px;
-            }
-            
-            .section {
-                padding: 12px 15px;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Loading Spinner -->
-    <div class="loading" id="loading">
-        <div class="spinner"></div>
-    </div>
-
     <div class="app-container">
         <!-- Header Section -->
         <div class="header">
@@ -335,75 +193,65 @@
                 <i class="fas fa-arrow-left"></i>
             </a>
             <div class="profile-img">
-                <i class="fas fa-user" id="profileIcon"></i>
-                <img src="" alt="صورة الطالب" id="profileImage" style="display: none;">
+                <i class="fas fa-user"></i>
             </div>
-            <div class="student-info">
-                <div class="student-name" id="studentName">جار التحميل...</div>
-                <div class="student-grade" id="studentGrade"></div>
-            </div>
+            <div><strong id="studentName"></strong></div>
+        <div><strong id="studentGrade"></strong></div>
         </div>
         
         <!-- Student Info Sections -->
-        <div class="content">
-            <div class="section">
-                <div class="icon">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <div class="section-content">
-                    <div class="section-title">الصف الدراسي</div>
-                    <div class="section-value" id="studentMain"></div>
+        <div class="section">
+            <div class="icon">
+                <i class="fas fa-graduation-cap"></i>
+            </div>
+            <div class="section-content">
+                <div class="section-title">الصف الدراسي</div>
+                <div class="section-value"><strong id="studentMain"></strong></div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="icon">
+                <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="section-content">
+                <div class="section-title">العنوان</div>
+                <div class="section-value"> ميت ابو علي</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="icon">
+                <i class="fas fa-star"></i>
+            </div>
+            <div class="section-content">
+                <div class="section-title">تقدير الشهر</div>
+                <div class="section-value">
+                    <span class="success-badge">        <div><strong id="studentInfo"></strong></div></span>
                 </div>
             </div>
-            
-            <div class="section">
-                <div class="icon">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <div class="section-content">
-                    <div class="section-title">العنوان</div>
-                    <div class="section-value" id="studentAddress">ميت أبو علي</div>
-                </div>
+        </div>
+        
+        <div class="section">
+            <div class="icon">
+                <i class="fas fa-clock"></i>
             </div>
-            
-            <div class="section">
-                <div class="icon">
-                    <i class="fas fa-star"></i>
-                </div>
-                <div class="section-content">
-                    <div class="section-title">التقييم الشهري</div>
-                    <div class="section-value">
-                        <span class="success-badge" id="studentRating">-</span>
-                    </div>
-                </div>
+            <div class="section-content">
+                <div class="section-title">موعد الدرس</div>
+                <div class="section-value"><a href="page7.html">Show</a></div>
             </div>
-            
-            <div class="section">
-                <div class="icon">
-                    <i class="fas fa-clock"></i>
-                </div>
-                <div class="section-content">
-                    <div class="section-title">موعد الدرس</div>
-                    <div class="section-value">
-                        <a href="page7.html" style="color: var(--primary-color); text-decoration: none;">
-                            عرض الجدول <i class="fas fa-arrow-left"></i>
-                        </a>
-                    </div>
-                </div>
+        </div>
+        
+        <div class="section">
+            <div class="icon">
+                <i class="fas fa-money-bill-wave"></i>
             </div>
-            
-            <div class="section">
-                <div class="icon">
-                    <i class="fas fa-money-bill-wave"></i>
-                </div>
-                <div class="section-content">
-                    <div class="section-title">المصاريف الدراسية</div>
-                    <div class="fee-container">
-                        <span>حالة الدفع</span>
-                        <a href="payments.html" style="color: var(--primary-color); text-decoration: none;">
-                            <span id="paymentStatus" class="success-badge">-</span>
-                        </a>
-                    </div>
+            <div class="section-content">
+                <div class="section-title">مصاريف الدرس</div>
+                <div class="section-value"></div>
+                <div class="fee-container">
+                    <span>الدفع الشهري</span>
+                    <span class="fee-amount"><a href="mony.html">Show</a></span>
                 </div>
             </div>
         </div>
@@ -414,14 +262,11 @@
                 <i class="fas fa-home"></i>
                 <span>الرئيسية</span>
             </a>
-            <a href="tel:+201150929598⁩" class="footer-btn">
+            <a href="https://www.facebook.com/lykhlyft.372341" class="footer-btn">
                 <i class="fas fa-phone"></i>
                 <span>تواصل</span>
             </a>
-            <a href="page2.html" class="footer-btn">
-                <i class="fas fa-calendar-check"></i>
-                <span>الحضور</span>
-            </a>
+            
             <a href="setting.html" class="footer-btn">
                 <i class="fas fa-cog"></i>
                 <span>الإعدادات</span>
@@ -430,100 +275,35 @@
     </div>
 
     <script>
-        // Show loading spinner
-        document.getElementById('loading').style.display = 'flex';
-        
-        // Function to get student data
-        async function getStudentData() {
-            try {
-                const studentId = localStorage.getItem('studentId');
-                if (!studentId) {
-                    window.location.href = 'code.html';
-                    return;
-                }
-                
-                const response = await fetch('students.json');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                
-                const data = await response.json();
-                const studentData = data[studentId];
-                
-                if (!studentData) {
-                    window.location.href = 'code.html';
-                    return;
-                }
-                
-                // Display student data
-                document.getElementById('studentName').textContent = studentData.name || 'غير معروف';
-                document.getElementById('studentGrade').textContent = studentData.grade || '';
-                document.getElementById('studentMain').textContent = studentData.main || 'غير محدد';
-                
-                // Set rating badge
-                const ratingElement = document.getElementById('studentRating');
-                if (studentData.info) {
-                    ratingElement.textContent = studentData.info;
-                    
-                    // Change badge color based on rating
-                    if (studentData.info.includes('ممتاز') || studentData.info.includes('جيد جدًا')) {
-                        ratingElement.className = 'success-badge';
-                    } else if (studentData.info.includes('جيد')) {
-                        ratingElement.className = 'warning-badge';
-                    } else {
-                        ratingElement.className = 'danger-badge';
-                    }
-                }
-                
-                // Set payment status (example - you can modify based on your data)
-                const paymentStatus = document.getElementById('paymentStatus');
-                const currentMonth = new Date().toLocaleString('ar-EG', { month: 'long' });
-                if (studentData.fees && studentData.fees[currentMonth]) {
-                    paymentStatus.textContent = 'مدفوع';
-                    paymentStatus.className = 'success-badge';
-                } else {
-                    paymentStatus.textContent = 'غير مدفوع';
-                    paymentStatus.className = 'danger-badge';
-                }
-                
-                // Hide loading spinner
-                document.getElementById('loading').style.display = 'none';
-                
-            } catch (error) {
-                console.error('Error fetching student data:', error);
-                window.location.href = 'code.html';
-            }
-        }
-        
-        // Load student data when page loads
-        document.addEventListener('DOMContentLoaded', getStudentData);
-        
-        // Footer navigation interaction
-        const footerBtns = document.querySelectorAll('.footer-btn');
-        footerBtns.forEach(btn => {
-            btn.addEventListener('click', function(e) {
-                // Remove active class from all buttons
-                footerBtns.forEach(b => b.classList.remove('active'));
-                
-                // Add active class to clicked button
-                this.classList.add('active');
-                
-                // You can add navigation logic here if needed
-                // e.preventDefault();
-                // window.location.href = this.getAttribute('href');
+
+        // يمكنك إضافة التفاعلات هنا
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('التطبيق جاهز');
+            
+            // مثال على تفاعل مع الأزرار
+            const footerBtns = document.querySelectorAll('.footer-btn');
+            footerBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    footerBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
         });
-        
-        // Add click effect to sections
-        const sections = document.querySelectorAll('.section');
-        sections.forEach(section => {
-            section.addEventListener('click', function() {
-                this.style.transform = 'scale(0.98)';
-                setTimeout(() => {
-                    this.style.transform = 'scale(1)';
-                }, 100);
-            });
-        });
+       // استرجاع بيانات الطالب من localStorage
+const studentData = JSON.parse(localStorage.getItem('studentData'));
+
+// التحقق من وجود بيانات الطالب
+if (studentData) {
+    document.getElementById('studentName').textContent = studentData.name;
+    document.getElementById('studentGrade').textContent = ` ${studentData.grade}`;
+    document.getElementById('studentMain').textContent = ` ${studentData.main}`;
+    document.getElementById('studentInfo').textContent = studentData.info; // <-- هذا هو التعديل الصحيح
+} else {
+    // إعادة التوجيه إلى صفحة إدخال الكود إذا لم تكن هناك بيانات
+    window.location.href = 'code.html';
+}
+
     </script>
 </body>
-</html>
+</html> 
