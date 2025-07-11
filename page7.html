@@ -348,8 +348,8 @@
     <h1>الجداول الدراسية</h1>
     
     <div class="grid-container">
-        <!-- الصفوف الابتدائية -->
-        <div class="grid-item elementary" onclick="openModal('first-elementary', 'elementary')">الصف الأول الابتدائي</div>
+        <!-- الصفوف الابتدائية -->        <div class="grid-item elementary">الصف الاول الابتدائي</div>
+
         <div class="grid-item elementary" onclick="openModal('second-elementary', 'elementary')">الصف الثاني الابتدائي</div>
         <div class="grid-item elementary" onclick="openModal('third-elementary', 'elementary')">الصف الثالث الابتدائي</div>
         <div class="grid-item elementary" onclick="openModal('fourth-elementary', 'elementary')">الصف الرابع الابتدائي</div>
@@ -369,39 +369,35 @@
     
     <!-- زر الانتقال إلى صفحة code.html -->
     <a href="home.html" class="go-to-code">
-        <i class="fas fa-school"></i>  التسجيل  
+        <i class="fas fa-school"></i>  العوده  
     </a>
     
     <!-- النوافذ المنبثقة المحسنة -->
-    <div id="first-elementary" class="modal modal-elementary">
+    <div id="third-elementary" class="modal modal-elementary">
         <div class="modal-content">
-            <span class="close" onclick="closeModal('first-elementary')">&times;</span>
+            <span class="close" onclick="closeModal('third-elementary')">&times;</span>
             <div class="modal-header">
                 <div class="modal-icon">
                     <i class="fas fa-child"></i>
                 </div>
-                <h2 class="modal-title">جدول الصف الأول الابتدائي</h2>
+                <h2 class="modal-title">جدول الصف الثالث الابتدائي</h2>
             </div>
             <div class="schedule-container">
                 <div class="schedule-day">
-                    <span class="day-name">الأحد</span>
-                    <span class="day-subject">عربي</span>
+                    <span class="day-name">السبت</span>
+                    <span class="day-time">2 ظهراً</span>
                 </div>
                 <div class="schedule-day">
-                    <span class="day-name">الثلاثاء</span>
-                    <span class="day-subject">علوم</span>
+                    <span class="day-name">الاثنين</span>
+                    <span class="day-time">2 ظهراً</span>
                 </div>
                 <div class="schedule-day">
-                    <span class="day-name">الخميس</span>
-                    <span class="day-subject">رياضيات</span>
-                </div>
-                <div class="schedule-day">
-                    <span class="day-name">الجمعة</span>
-                    <span class="day-subject">دراسات</span>
+                    <span class="day-name">الأربعاء</span>
+                    <span class="day-time">2 ظهراً</span>
                 </div>
             </div>
             <div class="modal-buttons">
-                <button class="modal-button exit" onclick="closeModal('first-elementary')">
+                <button class="modal-button exit" onclick="closeModal('third-elementary')">
                     <i class="fas fa-times"></i> خروج
                 </button>
                 <button class="modal-button contact" onclick="contactWhatsApp()">
