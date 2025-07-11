@@ -85,6 +85,33 @@
       box-shadow: 0 0 0 3px rgba(60, 92, 129, 0.2);
     }
     
+    .file-input-container {
+      margin: 20px 0;
+      text-align: right;
+    }
+    
+    .file-input-label {
+      display: block;
+      margin-bottom: 8px;
+      color: #3c5c81;
+      font-weight: 600;
+    }
+    
+    .file-input {
+      width: 100%;
+      padding: 10px;
+      border: 2px dashed #e0e0e0;
+      border-radius: 10px;
+      background-color: #f9f9f9;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .file-input:hover {
+      border-color: #3c5c81;
+      background-color: #f0f4f9;
+    }
+    
     .submit-btn {
       width: 100%;
       padding: 15px;
@@ -150,6 +177,11 @@
       <div class="error-message" id="errorMessage">الكود غير صحيح! الرجاء المحاولة مرة أخرى.</div>
     </div>
     
+    <div class="file-input-container">
+      <label for="profileImage" class="file-input-label">رفع صورة شخصية (اختياري)</label>
+      <input type="file" id="profileImage" class="file-input" accept="image/*">
+    </div>
+    
     <button class="submit-btn" onclick="verifyCode()">تسجيل الدخول</button>
     <p class="footer-text">للمساعدة، يرجى التواصل مع المعلم</p>
   </div>
@@ -181,6 +213,7 @@
     function verifyCode() {
       const codeInput = document.getElementById('codeInput');
       const errorMessage = document.getElementById('errorMessage');
+      const profileImageInput = document.getElementById('profileImage');
       const code = codeInput.value.trim();
       
       // إخفاء رسالة الخطأ عند المحاولة
@@ -202,17 +235,34 @@
         localStorage.setItem('studentData', JSON.stringify(student));
         localStorage.setItem('studentId', code);
         
-        // إضافة تأثير قبل الانتقال
-        document.querySelector('.auth-container').style.animation = 'fadeIn 0.5s ease reverse';
-        setTimeout(() => {
-          window.location.href = 'home.html';
-        }, 300);
+        // حفظ الصورة إذا تم اختيارها
+        if (profileImageInput.files.length > 0) {
+          const file = profileImageInput.files[0];
+          const reader = new FileReader();
+          
+          reader.onload = function(e) {
+            localStorage.setItem('studentProfileImage', e.target.result);
+            redirectToHome();
+          };
+          
+          reader.readAsDataURL(file);
+        } else {
+          redirectToHome();
+        }
       } else {
         codeInput.style.borderColor = '#c62828';
         errorMessage.style.display = 'block';
         codeInput.value = '';
         codeInput.focus();
       }
+    }
+    
+    function redirectToHome() {
+      // إضافة تأثير قبل الانتقال
+      document.querySelector('.auth-container').style.animation = 'fadeIn 0.5s ease reverse';
+      setTimeout(() => {
+        window.location.href = 'home.html';
+      }, 300);
     }
     
     // تفعيل الزر عند الضغط على Enter
