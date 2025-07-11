@@ -67,6 +67,22 @@
       border: 2px solid rgba(255, 255, 255, 0.2);
     }
 
+    /* أضفت هذا الجزء للصورة الدائرية */
+    .profile-image-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .profile-image {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
     /* قائمة الأيقونات المنسدلة */
     .dropdown {
       position: relative;
@@ -240,6 +256,12 @@
         font-size: 12px;
         padding: 6px 12px;
       }
+      
+      /* تعديل حجم الصورة للشاشات الصغيرة */
+      .profile-image {
+        width: 32px;
+        height: 32px;
+      }
     }
 
     /* تحسينات للوضع الأفقي */
@@ -260,9 +282,13 @@
   <div class="header">
     <div class="logo-container">
       <div class="logo"></div>
-      <div class="student-badge" id="studentName">
-        <i class="fas fa-user-graduate" style="margin-left: 6px;"></i>
-        <span id="nameText"></span>
+      <div class="profile-image-container">
+        <!-- الصورة الدائرية -->
+        <img id="profileImage" class="profile-image" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="صورة الطالب">
+        <div class="student-badge" id="studentName">
+          <i class="fas fa-user-graduate" style="margin-left: 6px;"></i>
+          <span id="nameText"></span>
+        </div>
       </div>
     </div>
     
@@ -333,6 +359,7 @@
   <script>
     // استرجاع بيانات الطالب من localStorage
     const studentData = JSON.parse(localStorage.getItem('studentData'));
+    const profileImage = localStorage.getItem('studentProfileImage');
 
     // التحقق من وجود بيانات الطالب
     if (studentData && studentData.name) {
@@ -343,6 +370,11 @@
         if (name.length > 2) {
           document.getElementById('nameText').textContent = name[0] + ' ' + name[1];
         }
+        
+        // عرض الصورة إذا وجدت
+        if (profileImage) {
+          document.getElementById('profileImage').src = profileImage;
+        }
     } else {
         window.location.href = 'code.html';
     }
@@ -352,6 +384,7 @@
       // مسح بيانات الجلسة
       localStorage.removeItem('studentData');
       localStorage.removeItem('authToken');
+      localStorage.removeItem('studentProfileImage');
       
       // إضافة تأثير قبل الانتقال
       document.body.style.opacity = '0';
