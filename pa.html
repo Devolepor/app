@@ -174,8 +174,8 @@
           student.name === studentData.name
         );
         
-        if (currentStudent && currentStudent.info && currentStudent.info.trim() !== "") {
-          // عرض الملاحظة من حقل info
+        if (currentStudent && currentStudent.notes && currentStudent.notes.trim() !== "") {
+          // عرض الملاحظة من حقل notes
           const noteCard = document.createElement('div');
           noteCard.className = 'note-card';
           noteCard.innerHTML = `
@@ -183,7 +183,7 @@
               <i class="far fa-calendar-alt"></i>
               ${new Date().toLocaleDateString('ar-EG')}
             </div>
-            <div class="note-content">${currentStudent.info}</div>
+            <div class="note-content">${currentStudent.notes}</div>
           `;
           notesContainer.appendChild(noteCard);
         } else {
