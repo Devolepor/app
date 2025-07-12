@@ -7,6 +7,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
+    /* نفس أنماط CSS السابقة */
     :root {
       --primary: #1976d2;
       --primary-dark: #0d5b9f;
@@ -326,7 +327,7 @@ function formatArabicDate(date) {
     hour: '2-digit',
     minute: '2-digit'
   };
-  return date.toLocaleDateString('ar-EG-u-nu-latn', options);
+  return date.toLocaleDateString('ar-EG', options);
 }
 
 // Convert Arabic numbers to English for Date parsing
@@ -354,34 +355,28 @@ function convertArabicNumbers(arabicStr) {
 // Parse Arabic date string
 function parseArabicDate(arabicDateStr) {
   const englishDateStr = convertArabicNumbers(arabicDateStr);
-  const dateParts = englishDateStr.split(/[/\s:]/);
   
-  // Assuming format: day/month/year hour:minute:second period
-  const day = parseInt(dateParts[0]);
-  const month = parseInt(dateParts[1]) - 1; // Months are 0-based
-  const year = parseInt(dateParts[2]);
-  let hour = parseInt(dateParts[3]);
-  const minute = parseInt(dateParts[4]);
-  const period = dateParts[6]; // AM/PM
+  // Extract date parts
+  const [datePart, timePart] = englishDateStr.split(' ');
+  const [day, month, year] = datePart.split('/');
+  const [time, period] = timePart.split(' ');
+  const [hours, minutes, seconds] = time.split(':');
   
-  if (period === 'PM' && hour < 12) {
-    hour += 12;
-  } else if (period === 'AM' && hour === 12) {
-    hour = 0;
+  // Convert to 24-hour format
+  let hour24 = parseInt(hours);
+  if (period === 'PM' && hour24 < 12) {
+    hour24 += 12;
+  } else if (period === 'AM' && hour24 === 12) {
+    hour24 = 0;
   }
   
-  return new Date(year, month, day, hour, minute);
+  return new Date(year, month - 1, day, hour24, minutes, seconds);
 }
 
 // Load posts from GitHub
 async function loadPosts() {
   try {
-    const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${postsPath}?ref=${branch}&t=${Date.now()}`, {
-      headers: {
-        'Accept': 'application/vnd.github.v3.raw',
-        'Content-Type': 'application/json; charset=utf-8'
-      }
-    });
+    const response = await fetch(`https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${postsPath}?t=${Date.now()}`);
     
     if (!response.ok) {
       throw new Error('فشل في تحميل المنشورات');
@@ -517,19 +512,9 @@ function copyPostLink(postId) {
   const textToCopy = `${title}\n\n${content}\n\n${date}`;
   
   navigator.clipboard.writeText(textToCopy).then(() => {
-    Swal.fire({
-      title: 'تم النسخ بنجاح',
-      text: 'تم نسخ المنشور إلى الحافظة',
-      icon: 'success',
-      confirmButtonText: 'حسناً'
-    });
+    alert('تم نسخ المنشور إلى الحافظة بنجاح');
   }).catch(err => {
-    Swal.fire({
-      title: 'خطأ',
-      text: 'فشل في نسخ المنشور: ' + err,
-      icon: 'error',
-      confirmButtonText: 'حسناً'
-    });
+    alert('حدث خطأ أثناء نسخ المنشور: ' + err);
   });
 }
 
@@ -539,7 +524,5 @@ setInterval(loadPosts, 5 * 60 * 1000);
 // Initial load
 loadPosts();
 </script>
-<!-- Include SweetAlert for beautiful alerts -->
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
