@@ -329,19 +329,65 @@ function formatArabicDate(date) {
   return date.toLocaleDateString('ar-EG-u-nu-latn', options);
 }
 
+// Convert Arabic numbers to English for Date parsing
+function convertArabicNumbers(arabicStr) {
+  const arabicToEnglishMap = {
+    '٠': '0',
+    '١': '1',
+    '٢': '2',
+    '٣': '3',
+    '٤': '4',
+    '٥': '5',
+    '٦': '6',
+    '٧': '7',
+    '٨': '8',
+    '٩': '9',
+    'ص': 'AM',
+    'م': 'PM'
+  };
+  
+  return arabicStr.replace(/[٠١٢٣٤٥٦٧٨٩صم]/g, function(match) {
+    return arabicToEnglishMap[match];
+  });
+}
+
+// Parse Arabic date string
+function parseArabicDate(arabicDateStr) {
+  const englishDateStr = convertArabicNumbers(arabicDateStr);
+  const dateParts = englishDateStr.split(/[/\s:]/);
+  
+  // Assuming format: day/month/year hour:minute:second period
+  const day = parseInt(dateParts[0]);
+  const month = parseInt(dateParts[1]) - 1; // Months are 0-based
+  const year = parseInt(dateParts[2]);
+  let hour = parseInt(dateParts[3]);
+  const minute = parseInt(dateParts[4]);
+  const period = dateParts[6]; // AM/PM
+  
+  if (period === 'PM' && hour < 12) {
+    hour += 12;
+  } else if (period === 'AM' && hour === 12) {
+    hour = 0;
+  }
+  
+  return new Date(year, month, day, hour, minute);
+}
+
 // Load posts from GitHub
 async function loadPosts() {
   try {
-    const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${postsPath}?ref=${branch}&t=${Date.now()}`);
+    const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${postsPath}?ref=${branch}&t=${Date.now()}`, {
+      headers: {
+        'Accept': 'application/vnd.github.v3.raw',
+        'Content-Type': 'application/json; charset=utf-8'
+      }
+    });
     
     if (!response.ok) {
       throw new Error('فشل في تحميل المنشورات');
     }
     
-    const data = await response.json();
-    const content = atob(data.content);
-    const posts = JSON.parse(content);
-    
+    const posts = await response.json();
     displayPosts(posts);
     updateLastUpdated();
     
@@ -374,7 +420,9 @@ function displayPosts(posts) {
   
   // Sort posts by date (newest first)
   const sortedPosts = Object.entries(posts).sort((a, b) => {
-    return new Date(b[1].date) - new Date(a[1].date);
+    const dateA = parseArabicDate(a[1].date);
+    const dateB = parseArabicDate(b[1].date);
+    return dateB - dateA;
   });
   
   let postsHTML = '';
