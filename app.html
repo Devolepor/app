@@ -368,7 +368,7 @@
     </div>
     
     <!-- زر الانتقال إلى صفحة code.html -->
-    <a href="code.html" class="go-to-code">
+    <a href="code.html" class="go-to-code" id="registerLink">
         <i class="fas fa-school"></i>  التسجيل  
     </a>
     
@@ -707,6 +707,29 @@
     </div>
     
     <script>
+        // التحقق من حالة المستخدم عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            // التحقق مما إذا كان المستخدم قد زار الصفحة من قبل
+            const hasVisited = localStorage.getItem('hasVisited');
+            
+            if (hasVisited === 'true') {
+                // إذا كان قد زار من قبل، توجيهه إلى home.html
+                window.location.href = 'home.html';
+            } else {
+                // إذا لم يزر من قبل، تعيين العلامة في localStorage
+                localStorage.setItem('hasVisited', 'true');
+            }
+        });
+
+        // عند النقر على رابط التسجيل
+        document.getElementById('registerLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            // تعيين العلامة في localStorage
+            localStorage.setItem('hasVisited', 'true');
+            // التوجيه إلى code.html
+            window.location.href = 'code.html';
+        });
+
         function openModal(modalId, type) {
             document.getElementById(modalId).style.display = "block";
             document.body.style.overflow = "hidden"; // منع التمرير عند فتح النافذة
