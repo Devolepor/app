@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منشورات المدرسة</title>
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #1976d2;
+      --primary-dark: #0d5b9f;
+      --secondary: #f8f9fa;
+      --dark: #343a40;
+      --light: #f8f9fa;
+      --danger: #dc3545;
+      --success: #28a745;
+      --warning: #ffc107;
+      --info: #17a2b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Tajawal', sans-serif;
+    }
+
+    body {
+      background-color: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    header {
+      background-color: var(--primary);
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      margin-bottom: 30px;
+      border-radius: 0 0 10px 10px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    header h1 {
+      font-size: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .post {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease;
+    }
+
+    .post:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .post-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .post-avatar {
+      width: 50px;
+      height: 50px;
+      background-color: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-left: 15px;
+    }
+
+    .post-meta {
+      flex: 1;
+    }
+
+    .post-author {
+      font-weight: bold;
+      color: var(--dark);
+    }
+
+    .post-date {
+      color: #6c757d;
+      font-size: 0.9rem;
+    }
+
+    .post-title {
+      color: var(--primary);
+      margin-bottom: 10px;
+      font-size: 1.3rem;
+    }
+
+    .post-content {
+      color: #495057;
+      margin-bottom: 15px;
+      line-height: 1.7;
+    }
+
+    .post-actions {
+      display: flex;
+      border-top: 1px solid #eee;
+      padding-top: 15px;
+      color: #6c757d;
+    }
+
+    .post-action {
+      display: flex;
+      align-items: center;
+      margin-left: 15px;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+
+    .post-action:hover {
+      color: var(--primary);
+    }
+
+    .post-action i {
+      margin-left: 5px;
+    }
+
+    .liked {
+      color: var(--danger);
+    }
+
+    .share-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+    .share-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px 15px;
+      border-radius: 5px;
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      transition: all 0.3s;
+      min-width: 120px;
+    }
+
+    .share-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .share-btn i {
+      margin-left: 5px;
+    }
+
+    .facebook { background-color: #3b5998; }
+    .whatsapp { background-color: #25D366; }
+    .telegram { background-color: #0088cc; }
+    .twitter { background-color: #1DA1F2; }
+    .link { background-color: var(--primary); }
+
+    .loading {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100px;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(0,0,0,0.1);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .last-updated {
+      text-align: center;
+      color: #6c757d;
+      margin-top: 20px;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding: 10px;
+      }
+
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      .post {
+        padding: 15px;
+      }
+
+      .post-actions {
+        flex-wrap: wrap;
+      }
+
+      .post-action {
+        margin-bottom: 10px;
+      }
+
+      .share-buttons {
+        flex-direction: column;
+      }
+
+      .share-btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>
+        <i class="fas fa-newspaper"></i>
+        منشورات المدرسة
+      </h1>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="posts-container">
+      <div class="loading">
+        <div class="spinner"></div>
+      </div>
+    </div>
+
+    <div class="last-updated" id="last-updated">
+      جاري تحميل المنشورات...
+    </div>
+  </main>
+
+<script>
+// GitHub configuration
+const owner = "Devolepor";
+const repo = "app";
+const postsPath = "posts.json";
+const branch = "main";
+
+// Load posts from GitHub
+async function loadPosts() {
+  try {
+    const response = await fetch(`https://api.github.com/repos/${owner}/${repo}/contents/${postsPath}?ref=${branch}&t=${Date.now()}`);
+    
+    if (!response.ok) {
+      throw new Error('فشل في تحميل المنشورات');
+    }
+    
+    const data = await response.json();
+    const content = atob(data.content);
+    const posts = JSON.parse(content);
+    
+    displayPosts(posts);
+    updateLastUpdated();
+    
+  } catch (error) {
+    console.error("Error loading posts:", error);
+    document.getElementById('posts-container').innerHTML = `
+      <div class="post">
+        <div class="post-content" style="text-align: center; padding: 40px;">
+          <h3 style="color: #6c757d;"><i class="fas fa-exclamation-triangle"></i> لا يمكن تحميل المنشورات حالياً</h3>
+          <p>الرجاء المحاولة مرة أخرى لاحقاً</p>
+        </div>
+      </div>
+    `;
+  }
+}
+
+// Display posts in the page
+function displayPosts(posts) {
+  const postsContainer = document.getElementById('posts-container');
+  
+  if (!posts || Object.keys(posts).length === 0) {
+    postsContainer.innerHTML = `
+      <div class="post">
+        <div class="post-content" style="text-align: center; padding: 40px;">
+          <h3 style="color: #6c757d;"><i class="fas fa-info-circle"></i> لا يوجد منشورات حالياً</h3>
+          <p>سيتم عرض المنشورات هنا بمجرد إضافتها</p>
+        </div>
+      </div>
+    `;
+    return;
+  }
+  
+  // Sort posts by date (newest first)
+  const sortedPosts = Object.entries(posts).sort((a, b) => {
+    return new Date(b[1].date) - new Date(a[1].date);
+  });
+  
+  let postsHTML = '';
+  
+  sortedPosts.forEach(([id, post]) => {
+    const shareText = `${post.title}\n\n${post.content}\n\nتاريخ النشر: ${post.date}`;
+    const encodedText = encodeURIComponent(shareText);
+    const pageUrl = encodeURIComponent(window.location.href);
+    
+    postsHTML += `
+      <div class="post" id="post-${id}">
+        <div class="post-header">
+          <div class="post-avatar">
+            <i class="fas fa-user"></i>
+          </div>
+          <div class="post-meta">
+            <div class="post-author">${post.author || 'المدرسة'}</div>
+            <div class="post-date">${post.date}</div>
+          </div>
+        </div>
+        
+        <div class="post-content">
+          <h3 class="post-title">${post.title}</h3>
+          <p>${post.content.replace(/\n/g, '<br>')}</p>
+        </div>
+        
+        <div class="post-actions">
+          <div class="post-action ${post.likedBy?.includes('admin') ? 'liked' : ''}" onclick="toggleLike('${id}')">
+            <i class="fas fa-heart"></i>
+            <span>${post.likes || 0} إعجاب</span>
+          </div>
+          
+          <div class="post-action" onclick="sharePost('${id}')">
+            <i class="fas fa-share"></i>
+            <span>${post.shares || 0} مشاركة</span>
+          </div>
+        </div>
+        
+        <div class="share-buttons" id="share-${id}" style="display: none;">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=${pageUrl}&quote=${encodedText}" 
+             target="_blank" class="share-btn facebook">
+            <i class="fab fa-facebook-f"></i> فيسبوك
+          </a>
+          <a href="https://wa.me/?text=${encodedText}" 
+             target="_blank" class="share-btn whatsapp">
+            <i class="fab fa-whatsapp"></i> واتساب
+          </a>
+          <a href="https://t.me/share/url?url=${pageUrl}&text=${encodedText}" 
+             target="_blank" class="share-btn telegram">
+            <i class="fab fa-telegram-plane"></i> تيليجرام
+          </a>
+          <a href="#" onclick="copyPostLink('${id}')" class="share-btn link">
+            <i class="fas fa-link"></i> نسخ الرابط
+          </a>
+        </div>
+      </div>
+    `;
+  });
+  
+  postsContainer.innerHTML = postsHTML;
+}
+
+function updateLastUpdated() {
+  const now = new Date();
+  const options = { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  };
+  
+  document.getElementById('last-updated').innerHTML = `
+    <i class="fas fa-sync-alt"></i> آخر تحديث: ${now.toLocaleDateString('ar-EG', options)}
+  `;
+}
+
+function toggleLike(postId) {
+  // في الواقع، هذه الوظيفة تحتاج إلى اتصال بالخادم لتحديث الإعجابات
+  // لكن في هذه النسخة سنجعلها للعرض فقط
+  const postAction = document.querySelector(`#post-${postId} .post-action:first-child`);
+  postAction.classList.toggle('liked');
+  
+  if (postAction.classList.contains('liked')) {
+    const likesCount = postAction.querySelector('span');
+    const currentLikes = parseInt(likesCount.textContent) || 0;
+    likesCount.textContent = `${currentLikes + 1} إعجاب`;
+  }
+}
+
+function sharePost(postId) {
+  const shareButtons = document.getElementById(`share-${postId}`);
+  shareButtons.style.display = shareButtons.style.display === 'flex' ? 'none' : 'flex';
+}
+
+function copyPostLink(postId) {
+  const post = document.getElementById(`post-${postId}`);
+  const title = post.querySelector('.post-title').textContent;
+  const content = post.querySelector('.post-content p').textContent;
+  const date = post.querySelector('.post-date').textContent;
+  
+  const textToCopy = `${title}\n\n${content}\n\n${date}`;
+  
+  navigator.clipboard.writeText(textToCopy).then(() => {
+    alert('تم نسخ المنشور إلى الحافظة');
+  }).catch(err => {
+    console.error('Failed to copy: ', err);
+  });
+}
+
+// Auto-refresh every 5 minutes
+setInterval(loadPosts, 5 * 60 * 1000);
+
+// Initial load
+loadPosts();
+</script>
+</body>
+</html>
