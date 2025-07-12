@@ -29,7 +29,7 @@
     body {
       background-color: #f5f5f5;
       color: #333;
-      line-height: 1.6;
+      line-height: 1.8;
     }
 
     .container {
@@ -60,8 +60,8 @@
       background-color: white;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      padding: 20px;
-      margin-bottom: 20px;
+      padding: 25px;
+      margin-bottom: 25px;
       transition: transform 0.3s ease;
     }
 
@@ -73,20 +73,20 @@
     .post-header {
       display: flex;
       align-items: center;
-      margin-bottom: 15px;
+      margin-bottom: 20px;
     }
 
     .post-avatar {
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       background-color: var(--primary);
       color: white;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.5rem;
-      margin-left: 15px;
+      font-size: 1.8rem;
+      margin-left: 20px;
     }
 
     .post-meta {
@@ -96,38 +96,43 @@
     .post-author {
       font-weight: bold;
       color: var(--dark);
+      font-size: 1.2rem;
+      margin-bottom: 5px;
     }
 
     .post-date {
       color: #6c757d;
-      font-size: 0.9rem;
+      font-size: 1rem;
     }
 
     .post-title {
       color: var(--primary);
-      margin-bottom: 10px;
-      font-size: 1.3rem;
+      margin-bottom: 15px;
+      font-size: 1.5rem;
+      font-weight: 700;
     }
 
     .post-content {
       color: #495057;
-      margin-bottom: 15px;
-      line-height: 1.7;
+      margin-bottom: 20px;
+      line-height: 1.8;
+      font-size: 1.1rem;
     }
 
     .post-actions {
       display: flex;
       border-top: 1px solid #eee;
-      padding-top: 15px;
+      padding-top: 20px;
       color: #6c757d;
     }
 
     .post-action {
       display: flex;
       align-items: center;
-      margin-left: 15px;
+      margin-left: 20px;
       cursor: pointer;
       transition: color 0.3s;
+      font-size: 1rem;
     }
 
     .post-action:hover {
@@ -135,7 +140,8 @@
     }
 
     .post-action i {
-      margin-left: 5px;
+      margin-left: 8px;
+      font-size: 1.2rem;
     }
 
     .liked {
@@ -144,8 +150,8 @@
 
     .share-buttons {
       display: flex;
-      gap: 10px;
-      margin-top: 15px;
+      gap: 15px;
+      margin-top: 20px;
       flex-wrap: wrap;
     }
 
@@ -153,22 +159,24 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      padding: 8px 15px;
-      border-radius: 5px;
+      padding: 10px 20px;
+      border-radius: 8px;
       color: white;
       text-decoration: none;
-      font-weight: 500;
+      font-weight: 600;
       transition: all 0.3s;
-      min-width: 120px;
+      min-width: 140px;
+      font-size: 1rem;
     }
 
     .share-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
     }
 
     .share-btn i {
-      margin-left: 5px;
+      margin-left: 8px;
+      font-size: 1.2rem;
     }
 
     .facebook { background-color: #3b5998; }
@@ -181,13 +189,13 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      height: 100px;
+      height: 150px;
     }
 
     .spinner {
-      width: 40px;
-      height: 40px;
-      border: 4px solid rgba(0,0,0,0.1);
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(0,0,0,0.1);
       border-radius: 50%;
       border-top-color: var(--primary);
       animation: spin 1s ease-in-out infinite;
@@ -200,21 +208,64 @@
     .last-updated {
       text-align: center;
       color: #6c757d;
-      margin-top: 20px;
-      font-size: 0.9rem;
+      margin-top: 30px;
+      font-size: 1rem;
+      padding: 10px;
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .empty-posts {
+      text-align: center;
+      padding: 50px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+    }
+
+    .empty-posts i {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 20px;
+    }
+
+    .empty-posts h3 {
+      color: #495057;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .empty-posts p {
+      color: #6c757d;
+      font-size: 1.1rem;
     }
 
     @media (max-width: 768px) {
       .container {
-        padding: 10px;
+        padding: 15px;
       }
 
       header h1 {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
       }
 
       .post {
-        padding: 15px;
+        padding: 20px;
+      }
+
+      .post-avatar {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+      }
+
+      .post-title {
+        font-size: 1.3rem;
+      }
+
+      .post-content {
+        font-size: 1rem;
       }
 
       .post-actions {
@@ -222,11 +273,12 @@
       }
 
       .post-action {
-        margin-bottom: 10px;
+        margin-bottom: 15px;
       }
 
       .share-buttons {
         flex-direction: column;
+        gap: 10px;
       }
 
       .share-btn {
@@ -264,6 +316,19 @@ const repo = "app";
 const postsPath = "posts.json";
 const branch = "main";
 
+// Format Arabic date
+function formatArabicDate(date) {
+  const options = { 
+    weekday: 'long', 
+    year: 'numeric', 
+    month: 'long', 
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
+  };
+  return date.toLocaleDateString('ar-EG-u-nu-latn', options);
+}
+
 // Load posts from GitHub
 async function loadPosts() {
   try {
@@ -283,11 +348,10 @@ async function loadPosts() {
   } catch (error) {
     console.error("Error loading posts:", error);
     document.getElementById('posts-container').innerHTML = `
-      <div class="post">
-        <div class="post-content" style="text-align: center; padding: 40px;">
-          <h3 style="color: #6c757d;"><i class="fas fa-exclamation-triangle"></i> لا يمكن تحميل المنشورات حالياً</h3>
-          <p>الرجاء المحاولة مرة أخرى لاحقاً</p>
-        </div>
+      <div class="empty-posts">
+        <i class="fas fa-exclamation-triangle"></i>
+        <h3>لا يمكن تحميل المنشورات حالياً</h3>
+        <p>الرجاء المحاولة مرة أخرى لاحقاً</p>
       </div>
     `;
   }
@@ -299,11 +363,10 @@ function displayPosts(posts) {
   
   if (!posts || Object.keys(posts).length === 0) {
     postsContainer.innerHTML = `
-      <div class="post">
-        <div class="post-content" style="text-align: center; padding: 40px;">
-          <h3 style="color: #6c757d;"><i class="fas fa-info-circle"></i> لا يوجد منشورات حالياً</h3>
-          <p>سيتم عرض المنشورات هنا بمجرد إضافتها</p>
-        </div>
+      <div class="empty-posts">
+        <i class="fas fa-info-circle"></i>
+        <h3>لا يوجد منشورات حالياً</h3>
+        <p>سيتم عرض المنشورات هنا بمجرد إضافتها</p>
       </div>
     `;
     return;
@@ -328,7 +391,7 @@ function displayPosts(posts) {
             <i class="fas fa-user"></i>
           </div>
           <div class="post-meta">
-            <div class="post-author">${post.author || 'المدرسة'}</div>
+            <div class="post-author">${post.author || 'إدارة المدرسة'}</div>
             <div class="post-date">${post.date}</div>
           </div>
         </div>
@@ -364,7 +427,7 @@ function displayPosts(posts) {
             <i class="fab fa-telegram-plane"></i> تيليجرام
           </a>
           <a href="#" onclick="copyPostLink('${id}')" class="share-btn link">
-            <i class="fas fa-link"></i> نسخ الرابط
+            <i class="fas fa-link"></i> نسخ المنشور
           </a>
         </div>
       </div>
@@ -376,23 +439,12 @@ function displayPosts(posts) {
 
 function updateLastUpdated() {
   const now = new Date();
-  const options = { 
-    weekday: 'long', 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  };
-  
   document.getElementById('last-updated').innerHTML = `
-    <i class="fas fa-sync-alt"></i> آخر تحديث: ${now.toLocaleDateString('ar-EG', options)}
+    <i class="fas fa-sync-alt"></i> آخر تحديث: ${formatArabicDate(now)}
   `;
 }
 
 function toggleLike(postId) {
-  // في الواقع، هذه الوظيفة تحتاج إلى اتصال بالخادم لتحديث الإعجابات
-  // لكن في هذه النسخة سنجعلها للعرض فقط
   const postAction = document.querySelector(`#post-${postId} .post-action:first-child`);
   postAction.classList.toggle('liked');
   
@@ -417,9 +469,19 @@ function copyPostLink(postId) {
   const textToCopy = `${title}\n\n${content}\n\n${date}`;
   
   navigator.clipboard.writeText(textToCopy).then(() => {
-    alert('تم نسخ المنشور إلى الحافظة');
+    Swal.fire({
+      title: 'تم النسخ بنجاح',
+      text: 'تم نسخ المنشور إلى الحافظة',
+      icon: 'success',
+      confirmButtonText: 'حسناً'
+    });
   }).catch(err => {
-    console.error('Failed to copy: ', err);
+    Swal.fire({
+      title: 'خطأ',
+      text: 'فشل في نسخ المنشور: ' + err,
+      icon: 'error',
+      confirmButtonText: 'حسناً'
+    });
   });
 }
 
@@ -429,5 +491,7 @@ setInterval(loadPosts, 5 * 60 * 1000);
 // Initial load
 loadPosts();
 </script>
+<!-- Include SweetAlert for beautiful alerts -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 </html>
