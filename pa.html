@@ -60,10 +60,16 @@
       border-right: 4px solid #6a5acd;
     }
     
+    .note-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
     .note-date {
       color: #777;
       font-size: 12px;
-      margin-bottom: 8px;
       display: flex;
       align-items: center;
       gap: 5px;
@@ -72,6 +78,47 @@
     .note-content {
       color: #333;
       line-height: 1.5;
+      margin-bottom: 10px;
+    }
+    
+    .note-image {
+      max-width: 100%;
+      border-radius: 8px;
+      margin-top: 10px;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    
+    .note-image:hover {
+      transform: scale(1.03);
+    }
+    
+    .image-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .modal-image {
+      max-width: 90%;
+      max-height: 90%;
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 35px;
+      cursor: pointer;
     }
     
     .no-notes {
@@ -143,6 +190,12 @@
     <!-- سيتم ملء الملاحظات هنا عبر الجافاسكربت -->
   </div>
   
+  <!-- Modal لعرض الصورة بالحجم الكامل -->
+  <div id="imageModal" class="image-modal" style="display: none;">
+    <span class="close-modal" onclick="closeImageModal()">&times;</span>
+    <img id="modalImage" class="modal-image">
+  </div>
+  
   <div class="bottom-nav">
     <div class="nav-item" onclick="window.location.href='home.html'">
       <i class="fas fa-home"></i>
@@ -153,7 +206,7 @@
       <span class="nav-label">الملف الشخصي</span>
     </div>
     <div class="nav-item active" onclick="window.location.href='tel:⁦+20 11 50929598⁩'">
-      <i class="fas fa-call"></i>
+      <i class="fas fa-phone"></i>
       <span class="nav-label">تواصل</span>
     </div>
   </div>
@@ -161,6 +214,19 @@
   <script>
     // استرجاع بيانات الطالب من localStorage
     const studentData = JSON.parse(localStorage.getItem('studentData'));
+    
+    // دالة لعرض الصورة بالحجم الكامل
+    function showFullImage(imageSrc) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      modal.style.display = 'flex';
+      modalImg.src = imageSrc;
+    }
+    
+    // دالة لإغلاق نافذة الصورة
+    function closeImageModal() {
+      document.getElementById('imageModal').style.display = 'none';
+    }
     
     // تحميل الملاحظات من ملف students.json
     async function loadNotes() {
@@ -174,24 +240,71 @@
           student.name === studentData.name
         );
         
-        if (currentStudent && currentStudent.notes && currentStudent.notes.trim() !== "") {
-          // عرض الملاحظة من حقل notes
-          const noteCard = document.createElement('div');
-          noteCard.className = 'note-card';
-          noteCard.innerHTML = `
-            <div class="note-date">
-              <i class="far fa-calendar-alt"></i>
-              ${new Date().toLocaleDateString('ar-EG')}
-            </div>
-            <div class="note-content">${currentStudent.notes}</div>
-          `;
-          notesContainer.appendChild(noteCard);
+        if (currentStudent) {
+          // عرض الملاحظة من حقل notes إذا كانت موجودة
+          if (currentStudent.notes && currentStudent.notes.trim() !== "") {
+            const noteCard = document.createElement('div');
+            noteCard.className = 'note-card';
+            noteCard.innerHTML = `
+              <div class="note-header">
+                <div class="note-date">
+                  <i class="far fa-calendar-alt"></i>
+                  ${new Date().toLocaleDateString('ar-EG')}
+                </div>
+              </div>
+              <div class="note-content">${currentStudent.notes}</div>
+            `;
+            notesContainer.appendChild(noteCard);
+          }
+          
+          // عرض المنشورات إذا كانت موجودة
+          if (currentStudent.posts && currentStudent.posts.length > 0) {
+            currentStudent.posts.forEach(post => {
+              const postCard = document.createElement('div');
+              postCard.className = 'note-card';
+              
+              let imageHtml = '';
+              if (post.image) {
+                imageHtml = `
+                  <img src="${post.image}" class="note-image" 
+                       onclick="showFullImage('${post.image}')" 
+                       alt="صورة المنشور">
+                `;
+              }
+              
+              postCard.innerHTML = `
+                <div class="note-header">
+                  <div class="note-date">
+                    <i class="far fa-calendar-alt"></i>
+                    ${post.date || new Date().toLocaleDateString('ar-EG')}
+                  </div>
+                </div>
+                <div class="note-content">
+                  <h3>${post.title || 'منشور بدون عنوان'}</h3>
+                  <p>${post.content || ''}</p>
+                </div>
+                ${imageHtml}
+              `;
+              
+              notesContainer.appendChild(postCard);
+            });
+          }
+          
+          // عرض رسالة عدم وجود ملاحظات إذا لم يكن هناك أي شيء
+          if (notesContainer.children.length === 0) {
+            notesContainer.innerHTML = `
+              <div class="no-notes">
+                <i class="far fa-sticky-note"></i>
+                <p>لم يتم إضافة أي ملاحظات أو منشورات حتى الآن</p>
+              </div>
+            `;
+          }
         } else {
-          // عرض رسالة عدم وجود ملاحظات
+          // عرض رسالة عدم وجود طالب
           notesContainer.innerHTML = `
             <div class="no-notes">
-              <i class="far fa-sticky-note"></i>
-              <p>لم يتم إضافة أي ملاحظات حتى الآن</p>
+              <i class="fas fa-user-slash"></i>
+              <p>لا توجد بيانات للطالب</p>
             </div>
           `;
         }
@@ -200,7 +313,7 @@
         notesContainer.innerHTML = `
           <div class="no-notes">
             <i class="fas fa-exclamation-triangle"></i>
-            <p>حدث خطأ أثناء تحميل الملاحظات</p>
+            <p>حدث خطأ أثناء تحميل الملاحظات والمنشورات</p>
           </div>
         `;
       }
