@@ -1540,6 +1540,17 @@
       "أبريل": false
     }
   },
+  "445332": {
+    "name": "احمد",
+    "main": "الصف الثاني الابتدائي",
+    "phone": null,
+    "info": null,
+    "image": "",
+    "fees": {},
+    "attendance": {},
+    "notes": "",
+    "_file": "students.json"
+  },
   "448234": {
     "name": "امال علاء",
     "main": "الصف الأول الثانوي",
